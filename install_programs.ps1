@@ -1,33 +1,33 @@
 # Description: Boxstarter / Chocolatey Script
-# Author: Lars H (lars@dr.com)
+# Author: Naggiz
 
 #---- TEMPORARY ---
 Disable-UAC
 choco feature enable -n allowGlobalConfirmation
 
 # Initialize reboot log file
-$reboot_log = "C:\installation.rbt"
-if ( -not (Test-Path $reboot_log) ) { New-Item $reboot_log -type file }
-$reboots = Get-Content $reboot_log
+#$reboot_log = "C:\installation.rbt"
+#if ( -not (Test-Path $reboot_log) ) { New-Item $reboot_log -type file }
+#$reboots = Get-Content $reboot_log
 
 
 # Boxstarter options
-$Boxstarter.RebootOk=$true # Allow reboots?
-$Boxstarter.NoPassword=$false # Is this a machine with no login password?
-$Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
+#$Boxstarter.RebootOk=$true # Allow reboots?
+#$Boxstarter.NoPassword=$false # Is this a machine with no login password?
+#$Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
 
 
 # Basic setup
-$section = "BasicSetup"
-if(-not ($section -in $reboots)) {
-	Update-ExecutionPolicy Unrestricted
-	Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowFileExtensions -EnableShowFullPathInTitleBar
+#$section = "BasicSetup"
+#if(-not ($section -in $reboots)) {
+#	Update-ExecutionPolicy Unrestricted
+#	Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowFileExtensions -EnableShowFullPathInTitleBar
 	# Taskbar Options if you want to change defaults
     # Set-TaskbarOptions `
     # -AlwaysShowIconsOff `
     # -Size Small `
     # -Lock
-}
+#}
 # Basic setup
 Update-ExecutionPolicy Unrestricted
 
@@ -159,11 +159,6 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUV
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name AppCaptureEnabled -Type DWord -Value 0
 Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name GameDVR_Enabled -Type DWord -Value 0
 
-# Turn off People in Taskbar
-# If (-Not (Test-Path "HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People")) {
-    # New-Item -Path HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People | Out-Null
-# }
-# Set-ItemProperty -Path "HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name PeopleBand -Type DWord -Value 0
 
 
 #---LIBRARIES---
@@ -181,73 +176,46 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-L
 choco install Microsoft-Hyper-V-All -source windowsFeatures
 choco install Microsoft-Windows-Subsystem-Linux -source windowsfeatures
 
-if (Test-PendingReboot) { Invoke-Reboot }
+#if (Test-PendingReboot) { Invoke-Reboot }
 
 # #--- Tools ---
 choco install TotalCommander -y
-choco install Foxit -y
-choco install chocolateygui -y
+choco install linux-reader -y # Read linux drives on windows, e.g. pimiga
+#choco install chocolateygui -y
 choco install 1password -y
 choco install 7zip -y
 choco install notepadplusplus -y
 choco install putty -y
 choco install filezilla -y
 choco install imgburn -y
-
-
-# # --- DevTools ---
-choco install postman
-choco install soapui
-choco install nodejs.install
-choco install yarn
-cinst python
-cinst pip
-cinst easy.install
-pip install pytest
-pip install math
-Pip install simplejson
-Pip install requests
-pip install libcurl
-Pip install pycurl
-Pip install plotly
-Pip install pyqt # GUI programming
-
- 
-choco install curl -y 
-choco install anaconda3 -y
-choco install ruby-y
-choco install php -y 
-#choco install visualstudiocode -y
-#choco install visualstudio2017community -y  
-#choco install visualstudio2017-workload-manageddesktop -y
-#choco install virtualbox -y
-choco install SourceTree -y 
-choco install mongodb -y
-#choco install docker-for-windows -y 
-choco install git -params '"/GitAndUnixToolsOnPath /WindowsTerminal"' -y
-
+choco install angryip -y
 
 # # --- Git ---
 Write-Verbose "Install Git"
-choco install poshgit
-Import-Module posh-git
+choco install git -params '"/GitAndUnixToolsOnPath /WindowsTerminal"' -y
+#choco install poshgit
+#Import-Module posh-git
 choco upgrade git
 refreshenv
-git config --global user.name "Lars Hjornevik"
-git config --global user.email "lars@dr.com"
+git config --global user.name "Nag"
+git config --global user.email "naggiz@pm.me"
 git config --global credential.helper wincred
 git config --global --bool pull.rebase true
+choco install github-desktop -y
 
 
 
 # # --- Communication ---
-choco install discord
-#choco install skype -y 
-#choco install whatsapp -y 
+choco install discord -y
 choco install signal -y
+choco install telegram -y
 
 
 # # --- Media and office ---
+choco install winamp -y 
+choco install mp3tag -y # mp3 metadata - filename. portable.
+choco install jdownloader -y 
+#choco install airparrot-2 -- version [2.6.1.250]	# Stream from pc to chromecast. Installer manuelt.
 choco install spotify -y
 #choco install itunes -y
 choco install vlc -y
@@ -259,34 +227,64 @@ choco install irfanviewplugins -y
 choco install k-litecodepackfull -y 
 choco install AudaCity -y # Record and edit sounds
 choco install -y flashplayerplugin
-choco install paint.net -y 
+#choco install paint.net -y 
 #choko install libreoffice-fresh -y
-choco install uplay
-choco install adobereader
+#choco install uplay
+#choco install adobereader
+choco install Foxit -y # pdf reader
 choco install pdf-ifilter-64 # Adobe PDF iFilter allows the user to easily search for text within Adobe PDF documents using Microsoft indexing clients.
 
 
-
 # # --- Apps ---
+choco install protonvpn
 choco install brave -y
 choco install googlechrome -y
 choco install tor-browser -y
-choco install Openvpn -y
-#choco install thunderbird -y
+#choco install Openvpn -y
+choco install thunderbird -y
+choco install protonmailbridge
 choco install evernote -y
 
 
-
 # # --- Games ---
-choco install dosbox
-choco install fs-uae
-choco install freeciv -y
+#choco install dosbox
+#choco install fs-uae
+#choco install freeciv -y
 #choco install steam -y
-choco install steamcmd -y  # https://developer.valvesoftware.com/wiki/SteamCMD
-choco install steam-cleaner # Steam Cleaner is a tool that will remove large amounts of data left behind by Steam, Origin, Uplay and GoG.
+#choco install steamcmd -y  # https://developer.valvesoftware.com/wiki/SteamCMD
+#choco install steam-cleaner # Steam Cleaner is a tool that will remove large amounts of data left behind by Steam, Origin, Uplay and GoG.
 #choco install epicgameslauncher
 
 
 # #--- Fonts ---
 choco install inconsolata -y
 choco install sourcecodepro -y
+
+
+# # --- DevTools ---
+#choco install postman
+#choco install soapui
+#choco install nodejs.install
+#choco install yarn
+#cinst python
+#cinst pip
+#cinst easy.install
+#pip install pytest
+#pip install math
+#Pip install simplejson
+#Pip install requests
+#pip install libcurl
+#Pip install pycurl
+#Pip install plotly
+#Pip install pyqt # GUI programming
+#choco install curl -y 
+#choco install anaconda3 -y
+#choco install ruby-y
+#choco install php -y 
+##choco install visualstudiocode -y
+##choco install visualstudio2017community -y  
+##choco install visualstudio2017-workload-manageddesktop -y
+##choco install virtualbox -y
+#choco install SourceTree -y 
+#choco install mongodb -y
+##choco install docker-for-windows -y 
