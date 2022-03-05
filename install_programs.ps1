@@ -169,6 +169,27 @@ Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name GameDVR_Enabled -Typ
 # Move-LibraryDirectory -libraryName "My Video" -newPath $ENV:OneDrive\Videos
 # Move-LibraryDirectory -libraryName "My Music" -newPath $ENV:OneDrive\Music
  
+ 
+# Remove some stuff with winget
+winget list
+winget uninstall "Windows Camera"
+winget uninstall "Microsoft People"
+winget uninstall "Microsoft Pay"
+winget uninstall "Windows Camera"
+winget uninstall "Xbox Game Bar Plugin"    
+winget uninstall "Xbox Game Bar"           
+winget uninstall "Xbox Identity Provider"
+winget uninstall "Xbox Game Speech Window"
+winget uninstall "Your Phone"
+winget uninstall "Windows Maps"
+winget uninstall "Adobe Acrobat Reader DC"
+winget uninstall "Paint 3D"
+winget uninstall "Microsoft Edge Microsoft.Edge"
+winget uninstall "Microsoft Edge Microsoft.MicrosoftEdge.Stable_8wekyb3d8bbwe"
+winget uninstall "Microsoft Edge Update"
+winget uninstall "Microsoft Edge WebView2 Runtime"
+winget uninstall "Fax and scan" 
+ 
 
 #--- Windows Subsystems/Features ---
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
